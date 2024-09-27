@@ -1,0 +1,135 @@
+openapi: 3.0.0
+info:
+  title: User Management API
+  version: 1.0.0
+  description: A User Management API with MySQL and Sequelize
+servers:
+  - url: http://localhost:8080/api
+paths:
+  /users:
+    get:
+      summary: Returns the list of all users
+      responses:
+        '200':
+          description: The list of users
+          content:
+            application/json:    
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '201':
+          description: The user was successfully created
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/{userId}:
+    get:
+      summary: Get a user by id
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: The user id
+      responses:
+        '200':
+          description: The user description by id
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: The user was not found
+    put:
+      summary: Update a user
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: The user id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '200':
+          description: The user was updated
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: The user was not found
+    delete:
+      summary: Delete a user
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: The user id
+      responses:
+        '200':
+          description: The user was deleted
+        '404':
+          description: The user was not found
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+          description: The auto-generated id of the user
+        firstName:
+          type: string
+          description: The user's first name
+        lastName:
+          type: string
+          description: The user's last name
+        email:
+          type: string
+          description: The user's email
+        phoneNumber:
+          type: string
+          description: The user's phone number
+    UserInput:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - password
+      properties:
+        firstName:
+          type: string
+          description: The user's first name
+        lastName:
+          type: string
+          description: The user's last name
+        email:
+          type: string
+          description: The user's email
+        phoneNumber:
+          type: string
+          description: The user's phone number
+        password:
+          type: string
+          description: The user's password
