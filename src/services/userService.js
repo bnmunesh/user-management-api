@@ -5,13 +5,13 @@ const User = db.User;
 
 exports.getAllUsers = async () => {
   return await User.findAll({
-    attributes: { exclude: ['password'] }
+    attributes: { exclude: ['password', 'deletedAt'] }
   });
 };
 
 exports.getUserById = async (userId) => {
   return await User.findByPk(userId, {
-    attributes: { exclude: ['password'] }
+    attributes: { exclude: ['password', 'deletedAt'] }
   });
 };
 
@@ -27,8 +27,17 @@ exports.updateUser = async (userId, userData) => {
   return null;
 };
 
-exports.deleteUser = async (userId) => {
+exports.softDeleteUser = async (userId) => {
   const user = await User.findByPk(userId);
+  if (user) {
+    await user.destroy();
+    return true;
+  }
+  return false;
+};
+
+exports.forceDeleteUser = async (userId) => {
+  const user = await User.findOne({ where: { userId }, paranoid: false });
   if (user) {
     await user.destroy({force: true});
     return true;

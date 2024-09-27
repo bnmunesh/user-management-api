@@ -77,7 +77,8 @@ paths:
         '404':
           description: The user was not found
     delete:
-      summary: Delete a user
+      summary: Soft Delete a user
+      description: Marks the user as deleted in DB. Data can be retrived later.
       parameters:
         - in: path
           name: userId
@@ -87,9 +88,29 @@ paths:
           description: The user id
       responses:
         '200':
-          description: The user was deleted
+          description: The user was soft deleted
         '404':
           description: The user was not found
+  /users/{userId}/force:
+    delete:
+      summary: Hard/Force Delete a user
+      description: Permanently removes a user from the system. This action cannot be undone.
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: The user id
+      responses:
+        '200':
+          description: The user was hard/force deleted from DB
+        '404':
+          description: The user was not found
+        '403':
+          description: Forbidden - User does not have permission to force delete
+        '500':
+          description: Internal server error
 components:
   schemas:
     User:

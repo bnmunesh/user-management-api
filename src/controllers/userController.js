@@ -45,11 +45,25 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-exports.deleteUser = async (req, res) => {
+exports.softDeleteUser = async (req, res) => {
   try {
-    const success = await userService.deleteUser(req.params.userId);
+    const success = await userService.softDeleteUser(req.params.userId);
     if (success) {
-      res.status(200).send('User deleted');
+      res.status(200).send('User soft deleted');
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.forceDeleteUser = async (req, res) => {
+  try {
+    console.log(req.params.userId);
+    const success = await userService.forceDeleteUser(req.params.userId);
+    if (success) {
+      res.status(200).send('User hard/force deleted');
     } else {
       res.status(404).send('User not found');
     }
