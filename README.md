@@ -63,7 +63,7 @@ All endpoints, except for login and create user require JWT authentication.
 
 5. Start the server:
    ```
-   npm start
+   npm run dev
    ```
 
 The server should now be running on `http://localhost:8080` (or your specified port).
