@@ -27,6 +27,7 @@ All endpoints, except for login and create user require JWT authentication.
 - **bcrypt**: For password hashing
 - **Swagger/OpenAPI**: API documentation
 - **MySQL**: Database system
+- **Jest**: For unit testing
 
 ## 4. Setup Instructions
 
@@ -94,10 +95,12 @@ This interactive documentation allows you to explore and test all available endp
 
 Implemented unit tests for core functionalities to ensure reliability and facilitate future maintenance.
 
-1. **Controller Layer**
+1. **Controller Layer**: Mocked database and service layer and ran tests on userController layer using Jest.
+
    ![Snapshot 1](./resources/userController%20Test.png)
 
-2. **Service Layer**
+2. **Service Layer**: Mocked database and controller layer and ran tests on userService layer using Jest.
+
    ![Snapshot 2](./resources/userService%20Test.png)
 
 ## Contributing
