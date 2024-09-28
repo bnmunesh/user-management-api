@@ -90,6 +90,16 @@ This interactive documentation allows you to explore and test all available endp
    ```
    or, if you are using swagger - click on the authorize button on swagger ui docs page and enter the bearer token.
 
+## Unit Tests Snapshots
+
+Implemented unit tests for core functionalities to ensure reliability and facilitate future maintenance.
+
+1. **Controller Layer**
+   ![Snapshot 1](./resources/userController%20Test.png)
+
+2. **Service Layer**
+   ![Snapshot 2](./resources/userService%20Test.png)
+
 ## Contributing
 
 Feel free to fork the repository and submit pull requests with improvements or bug fixes.
