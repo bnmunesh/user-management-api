@@ -48,7 +48,7 @@ All endpoints, except for login and create user require JWT authentication.
 2. Install dependencies:
 
    ```
-   npm run dev
+   npm install
    ```
 
 3. Set up your environment variables. Create a `.env` file in the root directory with the following contents:
@@ -65,7 +65,7 @@ All endpoints, except for login and create user require JWT authentication.
 
 5. Start the server:
    ```
-   npm start
+   npm run dev
    ```
 
 The server should now be running on `http://localhost:8080` (or your specified port).
