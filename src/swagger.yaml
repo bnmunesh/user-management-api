@@ -3,8 +3,10 @@ info:
   title: User Management API
   version: 1.0.0
   description: A User Management API with MySQL and Sequelize
+
 servers:
   - url: http://localhost:8080/api
+
 paths:
   /login:
     post:
@@ -51,9 +53,28 @@ paths:
           description: Unauthorized
         '500':
           description: Internal server error
+
   /users:
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        '201':
+          description: The user was successfully created
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/User'
+
     get:
       summary: Returns the list of all users
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: The list of users
@@ -63,24 +84,13 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
-    post:
-      summary: Create a new user
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserInput'
-      responses:
-        '201':
-          description: The user was successfully created
-          content:
-            application/json:    
-              schema:
-                $ref: '#/components/schemas/User'
+
+
   /users/{userId}:
     get:
       summary: Get a user by id
+      security:
+        - BearerAuth: []
       parameters:
         - in: path
           name: userId
@@ -97,8 +107,11 @@ paths:
                 $ref: '#/components/schemas/User'
         '404':
           description: The user was not found
+
     put:
       summary: Update a user
+      security:
+        - BearerAuth: []
       parameters:
         - in: path
           name: userId
@@ -111,7 +124,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserInput'
+              $ref: '#/components/schemas/UpdateUserRequest'
       responses:
         '200':
           description: The user was updated
@@ -121,9 +134,12 @@ paths:
                 $ref: '#/components/schemas/User'
         '404':
           description: The user was not found
+
     delete:
       summary: Soft Delete a user
       description: Marks the user as deleted in DB. Data can be retrived later.
+      security:
+        - BearerAuth: []
       parameters:
         - in: path
           name: userId
@@ -136,10 +152,13 @@ paths:
           description: The user was soft deleted
         '404':
           description: The user was not found
+
   /users/{userId}/force:
     delete:
       summary: Hard/Force Delete a user
       description: Permanently removes a user from the system. This action cannot be undone.
+      security:
+        - BearerAuth: []
       parameters:
         - in: path
           name: userId
@@ -156,12 +175,15 @@ paths:
           description: Forbidden - User does not have permission to force delete
         '500':
           description: Internal server error
+
+
 components:
-  securitySchemas:
+  securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+
   schemas:
     User:
       type: object
@@ -181,11 +203,11 @@ components:
         phoneNumber:
           type: string
           description: The user's phone number
-    UserInput:
+
+    CreateUserRequest:
       type: object
       required:
         - firstName
-        - lastName
         - email
         - password
       properties:
@@ -204,3 +226,45 @@ components:
         password:
           type: string
           description: The user's password
+
+    UpdateUserRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        phoneNumber:
+          type: string
+        password:
+          type: string
+          format: password
+
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+      required:
+        - email
+        - password
+
+    LoginResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        userId:
+          type: integer
+        email:
+          type: string
+          format: email
+        token:
+          type: string
