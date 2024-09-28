@@ -39,17 +39,20 @@ All endpoints, except for login and create user require JWT authentication.
 ### Installation Steps
 
 1. Clone the repository:
+
    ```
    git clone https://github.com/your-username/user-management-crud.git
    cd user-management-crud
    ```
 
 2. Install dependencies:
+
    ```
-   npm install
+   npm run dev
    ```
 
 3. Set up your environment variables. Create a `.env` file in the root directory with the following contents:
+
    ```
    DB_HOST=localhost
    DB_USER=your_database_user
@@ -59,7 +62,6 @@ All endpoints, except for login and create user require JWT authentication.
    ```
 
 4. Set up your database. Create a new MySQL database named `user_management_db` (or as specified in your `.env` file).
-
 
 5. Start the server:
    ```
