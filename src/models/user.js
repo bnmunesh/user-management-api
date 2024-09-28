@@ -7,27 +7,55 @@ module.exports = (sequelize, DataTypes) => {
         },
         firstName: {
           type: DataTypes.STRING,
-          allowNull: true,
+          allowNull: false,
+          validate:{
+            notEmpty: {
+              msg: "FirstName field cannot be empty"
+            }
+          }
         },
         lastName: {
           type: DataTypes.STRING,
-          allowNull: false,
+          allowNull: true,
+          validate: {
+            notEmpty: {
+            msg: "LastName field cannot be empty"
+            }
+          }
         },
         email: {
           type: DataTypes.STRING,
           allowNull: false,
-          unique: true,
+          unique: {msg: "The email is already registered"},
           validate: {
-            isEmail: true,
+            notEmpty: {
+              msg: "Email cannot be empty"
+            },
+            isEmail: {msg: "Provide a valid email"}
           },
         },
         phoneNumber: {
           type: DataTypes.STRING,
           allowNull: true,
+          validate: {
+            notEmpty: {
+              msg: "Phone number cannot be empty"
+            },
+            isNumeric: {
+              msg: "Phone number must contain only numeric characters"
+            },
+            len: {
+              args: [8, 15],
+              msg: "Phone number must be between 8 and 15 characters"
+            }
+          },
         },
         password: {
           type: DataTypes.STRING,
           allowNull: false,
+          validate: {
+            notEmpty: true,
+          }
         },
     }, {
       paranoid: true,

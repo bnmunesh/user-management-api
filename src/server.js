@@ -4,6 +4,12 @@ const YAML = require('yamljs');
 const swaggerDocument = YAML.load('./src/swagger.yaml');
 const router = require('./routes/userRouter.js');
 const db = require('./models');
+require('dotenv').config();
+
+if (!process.env.JWT_SECRET) {
+  console.error('JWT_SECRET is not set. Please set it in your .env file.');
+  process.exit(1);
+}
 
 const app = express();
 const PORT = 8080;
@@ -36,4 +42,5 @@ db.sequelize.sync({ force: true })
   .catch((err) => {
     console.error('Failed to sync database:', err);
     console.error('Error details:', JSON.stringify(err, null, 2));
+    process.exit(1);
   });
